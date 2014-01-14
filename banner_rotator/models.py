@@ -115,8 +115,9 @@ class Banner(models.Model):
         return self.file.name.lower().endswith("swf")
 
     def view(self):
-        self.views = models.F('views') + 1
+        self.views += 1
         if self.views >= self.max_views and self.is_active:
+            print 'var 1'
             self.is_active = False
         self.save()
         return ''
@@ -133,6 +134,7 @@ class Banner(models.Model):
             click['user'] = request.user
         self.click_count += 1
         if self.click_count >= self.max_clicks and self.is_active:
+            print 'var 2'
             self.is_active = False
         self.save()
         return Click.objects.create(**click)
