@@ -26,7 +26,7 @@
                     {% if banner_place.height %}height="{{ banner_place.height }}"{% endif %}>
         </object>
     {% else %}
-        <a href="{% url banner_click banner.id %}?place={{ banner_place.id }}" target="{{ banner.url_target }}">
+        <a href="{% url 'banner_rotator.views.click' banner.id %}?place={{ banner_place.id }}" target="{{ banner.url_target }}">
             <img
                     src="{{ banner.file.url }}"
                     alt="{{ banner.alt }}"

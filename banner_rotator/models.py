@@ -25,9 +25,9 @@ def get_banner_upload_to(instance, filename):
 
 
 class Campaign(models.Model):
-    name = models.CharField(_('Name'), max_length=255)
-    created_at = models.DateTimeField(_('Create at'), auto_now_add=True)
-    updated_at = models.DateTimeField(_('Update at'), auto_now=True)
+    name = models.CharField(_('Name'), max_length=255, help_text='')
+    created_at = models.DateTimeField(_('Create at'), auto_now_add=True, help_text='')
+    updated_at = models.DateTimeField(_('Update at'), auto_now=True, help_text='')
 
     class Meta:
         verbose_name = _('campaign')
@@ -38,10 +38,10 @@ class Campaign(models.Model):
 
 
 class Place(models.Model):
-    name = models.CharField(_('Name'), max_length=255)
-    slug = models.SlugField(_('Slug'))
-    width = models.SmallIntegerField(_('Width'), blank=True, null=True, default=None)
-    height = models.SmallIntegerField(_('Height'), blank=True, null=True, default=None)
+    name = models.CharField(_('Name'), max_length=255, help_text='')
+    slug = models.SlugField(_('Slug'), help_text='')
+    width = models.SmallIntegerField(_('Width'), blank=True, null=True, default=None, help_text='')
+    height = models.SmallIntegerField(_('Height'), blank=True, null=True, default=None, help_text='')
 
     class Meta:
         unique_together = ('slug',)
@@ -71,32 +71,36 @@ class Banner(models.Model):
     )
 
     campaign = models.ForeignKey(Campaign, verbose_name=_('Campaign'), blank=True, null=True, default=None,
-        related_name="banners", db_index=True)
+        related_name="banners", db_index=True, help_text='')
 
-    name = models.CharField(_('Name'), max_length=255)
-    alt = models.CharField(_('Image alt'), max_length=255, blank=True, default='')
+    name = models.CharField(_('Name'), max_length=255, help_text='')
+    alt = models.CharField(_('Image alt'), max_length=255, blank=True, default='', help_text='')
 
-    url = models.URLField(_('URL'))
-    url_target = models.CharField(_('Target'), max_length=10, choices=URL_TARGET_CHOICES, default='')
+    url = models.URLField(_('URL'), help_text='')
+    url_target = models.CharField(_('Target'), max_length=10, choices=URL_TARGET_CHOICES, default='', 
+                                    help_text='')
 
-    views = models.IntegerField(_('Views'), default=0)
-    max_views = models.IntegerField(_('Max views'), default=0)
-    max_clicks = models.IntegerField(_('Max clicks'), default=0)
+    views = models.IntegerField(_('Views'), default=0, help_text='')
+    max_views = models.IntegerField(_('Max views'), default=0, help_text='')
+    max_clicks = models.IntegerField(_('Max clicks'), default=0, help_text='')
 
     weight = models.IntegerField(_('Weight'), help_text=_("A ten will display 10 times more often that a one."),
         choices=[[i, i] for i in range(1, 11)], default=5)
 
-    file = models.FileField(_('File'), upload_to=get_banner_upload_to)
+    file = models.FileField(_('File'), upload_to=get_banner_upload_to, help_text='')
 
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True, help_text='')
+    updated_at = models.DateTimeField(auto_now=True, help_text='')
 
-    start_at = models.DateTimeField(_('Start at'), blank=True, null=True, default=None)
-    finish_at = models.DateTimeField(_('Finish at'), blank=True, null=True, default=None)
+    start_at = models.DateTimeField(_('Start at'), blank=True, null=True, default=None, help_text='')
+    finish_at = models.DateTimeField(_('Finish at'), blank=True, null=True, default=None, help_text='')
 
-    is_active = models.BooleanField(_('Is active'), default=True)
+    is_active = models.BooleanField(_('Is active'), default=True, help_text='')
 
-    places = models.ManyToManyField(Place, verbose_name=_('Place'), related_name="banners", db_index=True)
+    places = models.ManyToManyField(Place, verbose_name=_('Place'), related_name="banners", db_index=True, 
+                                    help_text='')
+
+    click_count = models.PositiveIntegerField(u'Кол-во кликов', null=True, blank=False, default=0)
 
     objects = BannerManager()
 
@@ -112,13 +116,14 @@ class Banner(models.Model):
 
     def view(self):
         self.views = models.F('views') + 1
+        if self.views >= self.max_views and self.is_active:
+            self.is_active = False
         self.save()
         return ''
 
     def click(self, request):
         click = {
             'banner': self,
-            'place': place,
             'ip': request.META.get('REMOTE_ADDR'),
             'user_agent': request.META.get('HTTP_USER_AGENT'),
             'referrer': request.META.get('HTTP_REFERER'),
@@ -126,7 +131,10 @@ class Banner(models.Model):
 
         if request.user.is_authenticated():
             click['user'] = request.user
-
+        self.click_count += 1
+        if self.click_count >= self.max_clicks and self.is_active:
+            self.is_active = False
+        self.save()
         return Click.objects.create(**click)
 
     @models.permalink
@@ -147,9 +155,10 @@ class Banner(models.Model):
 
 
 class Click(models.Model):
-    banner = models.ForeignKey(Banner, related_name="clicks")
-    user = models.ForeignKey(User, null=True, blank=True, related_name="banner_clicks")
-    datetime = models.DateTimeField("Clicked at", auto_now_add=True)
-    ip = models.IPAddressField(null=True, blank=True)
-    user_agent = models.TextField(validators=[MaxLengthValidator(1000)], null=True, blank=True)
-    referrer = models.URLField(null=True, blank=True)
+    banner = models.ForeignKey(Banner, related_name="clicks", help_text='')
+    user = models.ForeignKey(User, null=True, blank=True, related_name="banner_clicks", help_text='')
+    datetime = models.DateTimeField("Clicked at", auto_now_add=True, help_text='')
+    ip = models.IPAddressField(null=True, blank=True, help_text='')
+    user_agent = models.TextField(validators=[MaxLengthValidator(1000)], null=True, blank=True, 
+                                help_text='')
+    referrer = models.URLField(null=True, blank=True, help_text='')

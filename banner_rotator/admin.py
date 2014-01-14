@@ -11,6 +11,7 @@ from django.utils.encoding import force_unicode
 from django.utils.functional import update_wrapper
 from django.utils.text import capfirst
 from django.utils.translation import ugettext_lazy as _
+from django.forms import CheckboxSelectMultiple
 
 from banner_rotator.models import Campaign, Place, Banner, Click
 
@@ -23,8 +24,8 @@ class PlaceAdmin(admin.ModelAdmin):
 class CampaignBannerInline(admin.StackedInline):
     model = Banner
     extra = 0
-    readonly_fields = ['views', 'clicks']
-    fields = ['is_active', 'places', 'name', 'url', 'file', 'weight', 'views', 'clicks']
+    readonly_fields = ['views', 'click_count']
+    fields = ['is_active', 'places', 'name', 'url', 'file', 'weight', 'views', 'click_count']
     formfield_overrides = {
         models.ManyToManyField: {'widget': forms.CheckboxSelectMultiple},
     }
@@ -45,12 +46,16 @@ class BannerAdmin(admin.ModelAdmin):
             'fields': ('campaign', 'places', 'name', 'url', 'url_target', 'file', 'alt'),
         }),
         (_('Show'), {
-            'fields': ('weight', 'views', 'max_views', 'clicks', 'max_clicks', 'start_at', 'finish_at', 'is_active'),
+            'fields': ('weight', 'views', 'max_views', 'click_count', 'max_clicks', 'start_at', 'finish_at', 'is_active'),
         })
     )
 
-    filter_horizontal = ('places',)
-    readonly_fields = ('views', 'clicks',)
+    formfield_overrides = {
+        models.ManyToManyField: {'widget': CheckboxSelectMultiple},
+    }
+
+    # filter_horizontal = ('places',)
+    readonly_fields = ('views', 'click_count',)
 
     object_log_clicks_template = None
 
