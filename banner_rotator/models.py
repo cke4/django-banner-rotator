@@ -100,7 +100,7 @@ class Banner(models.Model):
     places = models.ManyToManyField(Place, verbose_name=_('Place'), related_name="banners", db_index=True, 
                                     help_text='')
 
-    click_count = models.PositiveIntegerField(u'Кол-во кликов', null=True, blank=False, default=0)
+    click_count = models.PositiveIntegerField(verbose_name=_('Clicks'), null=True, blank=False, default=0)
 
     objects = BannerManager()
 

@@ -1,0 +1,156 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-02-11 12:24+0100\n"
+"PO-Revision-Date: 2014-02-11 12:34+0100\n"
+"Last-Translator:   <txunin@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"X-Translated-Using: django-rosetta 0.7.3\n"
+
+#: admin.py:45
+msgid "Main"
+msgstr "Nagusia"
+
+#: admin.py:48
+msgid "Show"
+msgstr "Erakutsi"
+
+#: admin.py:94
+msgid "Log clicks"
+msgstr "Gordetako klikak"
+
+#: models.py:28 models.py:41 models.py:76
+msgid "Name"
+msgstr "Izena"
+
+#: models.py:29
+msgid "Create at"
+msgstr "Sortua"
+
+#: models.py:30
+msgid "Update at"
+msgstr "Eguneratua"
+
+#: models.py:33
+msgid "campaign"
+msgstr "Kanpaña"
+
+#: models.py:34
+msgid "campaigns"
+msgstr "Kanpañak"
+
+#: models.py:42
+msgid "Slug"
+msgstr ""
+
+#: models.py:43
+msgid "Width"
+msgstr "Zabalera"
+
+#: models.py:44
+msgid "Height"
+msgstr "Altuera"
+
+#: models.py:48
+msgid "place"
+msgstr "lekua"
+
+#: models.py:49
+msgid "places"
+msgstr "lekuak"
+
+#: models.py:64
+msgid "Size"
+msgstr "tamaina"
+
+#: models.py:69
+msgid "Current page"
+msgstr "Egungo orria"
+
+#: models.py:70
+msgid "Blank page"
+msgstr "Orri hutsa"
+
+#: models.py:73
+msgid "Campaign"
+msgstr "Kanpaina"
+
+#: models.py:77
+msgid "Image alt"
+msgstr "Irudi alt"
+
+#: models.py:79
+msgid "URL"
+msgstr ""
+
+#: models.py:80
+msgid "Target"
+msgstr "Jopuntua"
+
+#: models.py:83 models.py:156
+msgid "Views"
+msgstr "Ikustaldiak"
+
+#: models.py:84
+msgid "Max views"
+msgstr "Ikustaldi maximoak"
+
+#: models.py:85
+msgid "Max clicks"
+msgstr "Klik maximoak"
+
+#: models.py:87
+msgid "Weight"
+msgstr "Pixua"
+
+#: models.py:87
+msgid "A ten will display 10 times more often that a one."
+msgstr "Hamarra bat baina 10 aldiz gehiago ikusiko da"
+
+#: models.py:90
+msgid "File"
+msgstr "Fitxategia"
+
+#: models.py:95
+msgid "Start at"
+msgstr "Hasi"
+
+#: models.py:96
+msgid "Finish at"
+msgstr "Bukatu"
+
+#: models.py:98
+msgid "Is active"
+msgstr "Aktibo dago"
+
+#: models.py:100
+msgid "Place"
+msgstr "Lekua"
+
+#: models.py:108
+msgid "banner"
+msgstr "banerra"
+
+#: models.py:109
+msgid "banners"
+msgstr "banerrak"
+
+#: models.py:150
+msgid "Clicks"
+msgstr "Klikak"
+
+#: templatetags/banners.py:58
+msgid "banner tag takes three of four arguments"
+msgstr "banner tagak 3 edo 4 argumentu hartzen ditu"
