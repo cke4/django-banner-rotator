@@ -116,8 +116,7 @@ class Banner(models.Model):
 
     def view(self):
         self.views += 1
-        if self.views >= self.max_views and self.is_active:
-            print 'var 1'
+        if self.views >= self.max_views and self.is_active and self.max_views != 0:
             self.is_active = False
         self.save()
         return ''
@@ -133,8 +132,7 @@ class Banner(models.Model):
         if request.user.is_authenticated():
             click['user'] = request.user
         self.click_count += 1
-        if self.click_count >= self.max_clicks and self.is_active:
-            print 'var 2'
+        if self.click_count >= self.max_clicks and self.is_active and self.max_clicks != 0:
             self.is_active = False
         self.save()
         return Click.objects.create(**click)
