@@ -32,8 +32,16 @@ def pick(bias_list):
 class BannerManager(models.Manager):
 
     def biased_choice(self, place):
-        queryset = self.filter(is_active=True, places=place, views__lt=models.F('max_views'), 
-                                click_count__lt=models.F('max_clicks'))
+        max_views = models.F('max_views')
+        max_clicks = models.F('max_clicks')
+        filter = {'is_active': True, 'places': place}
+        
+        if max_views > 0:
+            filter['views__lt'] = max_views
+        if max_clicks > 0:
+            filter['click_count__lt'] = max_clicks
+            
+        queryset = self.filter(**filter)
 
         if not queryset.count():
             raise self.model.DoesNotExist
