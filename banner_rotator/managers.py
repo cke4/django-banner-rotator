@@ -1,7 +1,7 @@
 #-*- coding:utf-8 -*-
 
 from random import random
-
+import datetime
 from django.db import models
 
 
@@ -35,7 +35,8 @@ class BannerManager(models.Manager):
                     
         queryset = self.filter(models.Q(is_active=True) & models.Q(places=place) &
                                ((models.Q(views__lt=models.F('max_views')) & models.Q(max_views__gt=0)) | models.Q(max_views__lt=1)) &
-                               ((models.Q(click_count__lt=models.F('max_clicks')) & models.Q(max_clicks__gt=0)) | models.Q(max_clicks__lt=1)))
+                               ((models.Q(click_count__lt=models.F('max_clicks')) & models.Q(max_clicks__gt=0)) | models.Q(max_clicks__lt=1)) &
+                               models.Q(start_at__lte=datetime.datetime.today()) & models.Q(finish_at__gte=datetime.datetime.today()))
 
         if not queryset.count():
             raise self.model.DoesNotExist
